@@ -1,0 +1,16 @@
+# Local development database.  Start it with:  docker compose up -d
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: coachdesk-db
+    environment:
+      POSTGRES_DB: coachdesk
+      POSTGRES_USER: coachdesk
+      POSTGRES_PASSWORD: coachdesk
+    ports:
+      - "5432:5432"
+    volumes:
+      - coachdesk-data:/var/lib/postgresql/data
+
+volumes:
+  coachdesk-data:

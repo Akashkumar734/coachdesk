@@ -1,0 +1,44 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: coachdesk-api
+  threads:
+    virtual:
+      enabled: true          # Java 21 virtual threads
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/coachdesk}
+    username: ${DATABASE_USERNAME:coachdesk}
+    password: ${DATABASE_PASSWORD:coachdesk}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:5}   # small pool = fits free database plans
+  jpa:
+    hibernate:
+      ddl-auto: none         # Flyway owns the schema (see db/migration)
+    open-in-view: false
+  flyway:
+    enabled: true
+
+app:
+  jwt:
+    # MUST be at least 32 characters. Always set JWT_SECRET in production.
+    secret: ${JWT_SECRET:dev-only-secret-change-me-please-32chars-min}
+    expiry-hours: ${JWT_EXPIRY_HOURS:72}
+  cors:
+    # Comma-separated list, e.g. https://coachdesk.vercel.app,http://localhost:5173
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

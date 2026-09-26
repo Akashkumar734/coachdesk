@@ -1,0 +1,23 @@
+# Render Blueprint: New -> Blueprint -> pick this repo.
+# Secrets marked sync:false are asked for on the Render dashboard.
+services:
+  - type: web
+    name: coachdesk-api
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: DATABASE_URL          # jdbc:postgresql://HOST/DBNAME?sslmode=require
+        sync: false
+      - key: DATABASE_USERNAME
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true        # Render creates a long random secret
+      - key: CORS_ORIGINS          # your Vercel URL, e.g. https://coachdesk.vercel.app
+        sync: false
+      - key: APP_TIMEZONE
+        value: Asia/Kolkata
